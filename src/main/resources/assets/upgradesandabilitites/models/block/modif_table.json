@@ -1,0 +1,13 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures":
+  {
+    "particle": "blocks/plank",
+    "north": "upgradesandabilitites:block/modif_table_side",
+    "south": "upgradesandabilitites:block/modif_table_side",
+    "east": "upgradesandabilitites:block/modif_table_side",
+    "west": "upgradesandabilitites:block/modif_table_side",
+    "up": "upgradesandabilitites:block/modif_table_top",
+    "down": "upgradesandabilitites:block/modif_table_bottom"
+  }
+}

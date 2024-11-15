@@ -1,0 +1,9 @@
+{
+  "variants":
+  {
+    "":
+    {
+      "model": "upgradesandabilitites:block/modif_table"
+    }
+  }
+}
