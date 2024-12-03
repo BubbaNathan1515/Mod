@@ -1,29 +1,37 @@
 package net.nathan.upgradesandabilitites.block.custom;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.*;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.network.NetworkHooks;
+import net.nathan.upgradesandabilitites.block.gui.Menu;
 
-public class Modif_table extends BaseEntityBlock
+public class Modif_table extends Block
 {
-    protected Modif_table(Properties properties)
+    public Modif_table(Properties properties)
     {
         super(properties);
     }
 
     @Override
-    public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult
+            hit)
     {
-        super.tick(pState, pLevel, pPos, pRandom);
-    }
+        if (!level.isClientSide)
+        {
+            NetworkHooks.openScreen((ServerPlayer) player,
+                    new SimpleMenuProvider(
+                            (windowId, inventory, playerEntity) -> new Menu(windowId, inventory, null, null),
+                            Component.literal("Modification Table")
+                    ), pos);
+        }
 
-    @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state)
-    {
-        return null;
+        return InteractionResult.SUCCESS;
     }
 }

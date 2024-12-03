@@ -13,7 +13,7 @@ public class ModItems
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, UpgradesandAbilitites.MOD_ID);
 
-    // This is makes the first item
+    //registers the modded items
     public static final RegistryObject<Item> GOLDBELL = ITEMS.register("goldbell", () -> new GoldBellItem(new Item.Properties()));
     public static final RegistryObject<Item> WALKINGCANE = ITEMS.register("walkingcane", () -> new Item(new Item.Properties()));
 

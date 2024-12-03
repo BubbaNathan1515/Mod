@@ -15,67 +15,67 @@ public class GoldBellItem extends Item
 {
     public GoldBellItem(Properties properties)
     {
-        super(properties);
+        super(properties); //passes up the item's base properties to the item class (like durability, max stack size, and other base data for the item)
     }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
     {
-        ItemStack item = player.getItemInHand(hand);
+        ItemStack item = player.getItemInHand(hand);//checks if the item is the bell
+
+        //creates tag to apply/remove shimmer effect
         CompoundTag tag = item.getOrCreateTag();
         boolean active = tag.getBoolean("ActiveShimmer");
-        player.getCooldowns().addCooldown(this, 20);
+
+        player.getCooldowns().addCooldown(this, 20); //sets cooldown on item to prevent glitches from item spam
+
+        //toggles the shimmer effect
         active = !active;
         tag.putBoolean("ActiveShimmer", active);
         return InteractionResultHolder.success(item);
     }
 
+    //will apply the "Shimmer" effect to item
     @Override
     public boolean isFoil(ItemStack item)
     {
         CompoundTag tag = item.getOrCreateTag();
         return tag.getBoolean("ActiveShimmer");
     }
-
+    // set max stack size to 1 (unstackable)
     @Override
     public int getMaxStackSize(ItemStack stack)
     {
         return 1;
     }
 
+    //makes sure durability is not applied to item
     @Override
     public boolean canBeDepleted()
     {
         return false;
     }
 
-    public void jump()
+    //Makes the player jump in mid air
+    public void jump(ItemStack item)
     {
+        //verifies player existence
         Player player = Minecraft.getInstance().player;
-        if (player != null)
+        if (player != null && item != null) //if the player and item exists
         {
-            ItemStack item = null;
-            for (ItemStack stack : player.getInventory().items)
-            {
-                if (stack.getItem() instanceof GoldBellItem)
-                {
-                    item = stack;
-                    break;
-                }
-            }
-            if (item != null)
-            {
+                //grabs shimmer and cooldown NBT tags (data associated to a specific instance of an item)
                 CompoundTag tag = item.getOrCreateTag();
                 boolean active = tag.getBoolean("ActiveShimmer");
                 boolean cooldown = tag.getBoolean("JumpCooldown");
-                if (!player.onGround() && active && !cooldown)
+
+                if (!player.onGround() && active && !cooldown) //checks if the bell is active, is not on the double jump cooldown, and is in the air and allows the player to jump
                 {
-                    Vec3 momentum = player.getDeltaMovement();
-                    player.setDeltaMovement(momentum.x, 0.8D, momentum.z);
-                    player.fallDistance = -0F;
-                    tag.putBoolean("JumpCooldown", true);
+                    Vec3 momentum = player.getDeltaMovement(); //gets player movement
+                    player.setDeltaMovement(momentum.x, 0.8D, momentum.z); //pushes the player upward while keeping the other momentum
+                    player.fallDistance = -0F; //resets fall distance to allow less fall damage but still penalize not jumping to higher places or missing
+                    tag.putBoolean("JumpCooldown", true); //applies the double jump cooldown
                 }
-            }
+
         }
     }
 }
