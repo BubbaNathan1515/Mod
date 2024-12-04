@@ -88,7 +88,6 @@ public class Menu extends AbstractContainerMenu
     @Override
     public boolean stillValid(Player player)
     {
-        System.out.println("Menu 13");
         return true;
     }
 

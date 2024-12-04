@@ -1,8 +1,12 @@
 package net.nathan.upgradesandabilitites.block;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -47,9 +51,10 @@ public class ModBlocks
     }
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(ForgeRegistries.MENU_TYPES, "upgradesandabilitites");
 
-    public static Menu createMenu(int windowId, Inventory playerInventory, FriendlyByteBuf extraData)
-    {
-        return new Menu(windowId, playerInventory, null, null);
+    public static Menu createMenu(int windowId, Inventory playerInventory, FriendlyByteBuf extraData) {
+        Container container = new SimpleContainer(4);  // Initialize with a proper container
+        ContainerData data = new SimpleContainerData(3);  // Initialize with valid data
+        return new Menu(windowId, playerInventory, container, data);
     }
 
     public static final RegistryObject<MenuType<Menu>> MODIF_MENU_TYPE = MENU_TYPES.register("modif_menu",

@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,16 +21,27 @@ public class Modif_table extends Block
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult
-            hit)
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
     {
-        if (!level.isClientSide)
+        if (!level.isClientSide)  // Ensure this is only executed on the server side
         {
+            System.out.println("Server-side: Attempting to open the screen.");
+
+            // Open the screen
             NetworkHooks.openScreen((ServerPlayer) player,
                     new SimpleMenuProvider(
-                            (windowId, inventory, playerEntity) -> new Menu(windowId, inventory, null, null),
+                            (id, inventory, playerEntity) -> {
+                                System.out.println("Creating Menu...");
+                                return new Menu(id, inventory, new SimpleContainer(4), new SimpleContainerData(3));
+                            },
                             Component.literal("Modification Table")
                     ), pos);
+
+            System.out.println("ModifScreen opened on the server for player " + player.getName().getString());
+        }
+        else
+        {
+            System.out.println("Client-side: Ignored screen opening, only server should handle this.");
         }
 
         return InteractionResult.SUCCESS;

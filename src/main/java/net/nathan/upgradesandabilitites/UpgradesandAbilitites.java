@@ -2,7 +2,6 @@ package net.nathan.upgradesandabilitites;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -14,10 +13,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.nathan.upgradesandabilitites.block.ModBlocks;
-import net.nathan.upgradesandabilitites.block.gui.Screen;
+import net.nathan.upgradesandabilitites.block.gui.ModifScreen;
 import net.nathan.upgradesandabilitites.item.ModCreativeModeTabs;
 import net.nathan.upgradesandabilitites.item.ModItems;
 
@@ -87,7 +84,7 @@ public class UpgradesandAbilitites
         {
             event.enqueueWork(() ->
             {
-                MenuScreens.register(ModBlocks.MODIF_MENU_TYPE.get(), Screen::new);
+                MenuScreens.register(ModBlocks.MODIF_MENU_TYPE.get(), ModifScreen::new);
             });
         }
     }

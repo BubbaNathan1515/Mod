@@ -11,30 +11,30 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import static net.nathan.upgradesandabilitites.UpgradesandAbilitites.MOD_ID;
 
 
-public class Screen extends AbstractContainerScreen<Menu>
+public class ModifScreen extends AbstractContainerScreen<Menu>
 {
-
     private Button topButton;
     private Button bottomButton;
     private Button confirmButton;
     private boolean materialBell;
     private boolean materialCane;
-    private int confirm;
+    private int confirm = 0;
     private Integer[] amount;
     private Item[] materials;
 
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(MOD_ID, "textures/gui/GUI_modif_table.png");
-
-    public Screen(Menu container, Inventory plyInv, Component component)
+    private static final ResourceLocation TEXTURE = new ResourceLocation("upgradesandabilitites", "textures/gui/GUI_modif_table.png");
+    public ModifScreen(Menu container, Inventory plyInv, Component component)
     {
+
         super(container, plyInv, component);
+        System.out.println("ModifScreen 1");
+
         this.imageWidth = 251;
         this.imageHeight = 139;
-        System.out.println("1");
+        System.out.println("ModifScreen 1.1");
     }
 
 
@@ -45,8 +45,8 @@ public class Screen extends AbstractContainerScreen<Menu>
         //Top Button
         super.init();
         //top left corner
-        int x = 26;
-        int y = 143;
+        int x = 50;
+        int y = 50;
         //W and H of button texture
         int height = 23;
         int width = 23;
@@ -56,6 +56,7 @@ public class Screen extends AbstractContainerScreen<Menu>
                 .size(width, height) //size of the button
                 .build(); //takes in those properties and builds it
         this.addRenderableWidget(topButton);  // renders the button to the screen
+        y=70;
         System.out.println("3");
         bottomButton = Button.builder(Component.literal("Test Text"), this::bottomButton)
                 .pos(x, y)
@@ -63,8 +64,8 @@ public class Screen extends AbstractContainerScreen<Menu>
                 .build();
         this.addRenderableWidget(bottomButton);  // renders the button to the screen
 
-        x=65;
-        y=145;
+        x=50;
+        y=50;
         width=41;
         height=18;
 
@@ -145,8 +146,8 @@ public class Screen extends AbstractContainerScreen<Menu>
                         this.topPos,
                         0,
                         0,
-                        this.imageWidth,
-                        this.imageHeight
+                        251,
+                        139
                 );
     }
 
