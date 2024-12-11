@@ -14,7 +14,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.nathan.upgradesandabilitites.block.ModBlocks;
-import net.nathan.upgradesandabilitites.block.gui.ModifScreen;
+import net.nathan.upgradesandabilitites.block.gui.Screen;
+import net.nathan.upgradesandabilitites.gamechecker.SpeedEffect;
 import net.nathan.upgradesandabilitites.item.ModCreativeModeTabs;
 import net.nathan.upgradesandabilitites.item.ModItems;
 
@@ -25,7 +26,7 @@ public class UpgradesandAbilitites
 {
     // The mod ID
     public static final String MOD_ID = "upgradesandabilitites";
-    // Directly reference a slf4j logger
+
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public UpgradesandAbilitites()
@@ -34,6 +35,7 @@ public class UpgradesandAbilitites
 
         // registers new items
         ModItems.register(modEventBus);
+
         // registers new blocks
         ModBlocks.register(modEventBus);
 
@@ -46,6 +48,9 @@ public class UpgradesandAbilitites
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
+        // Register the speed effect for the walking cane
+        SpeedEffect.register(modEventBus);
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -54,7 +59,6 @@ public class UpgradesandAbilitites
     private void commonSetup(final FMLCommonSetupEvent event)
     {
         ModBlocks.MENU_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
-
     }
 
     // Adds the modded items to the tools and utils creative mode tab
@@ -68,23 +72,25 @@ public class UpgradesandAbilitites
 
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
+    //used for when specifically the server starts up (I have none, but I thought I would keep it just in case)
+    //This is also for Multiplayer (yeah that kind of server)
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
     {
 
     }
 
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
+    // Mod Subscriber event bus
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
     {
+        //when the client starts up (obviously)
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
             event.enqueueWork(() ->
             {
-                MenuScreens.register(ModBlocks.MODIF_MENU_TYPE.get(), ModifScreen::new);
+                MenuScreens.register(ModBlocks.MODIF_MENU_TYPE.get(), Screen::new);
             });
         }
     }

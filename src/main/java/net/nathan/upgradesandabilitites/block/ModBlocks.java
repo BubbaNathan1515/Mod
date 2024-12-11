@@ -36,7 +36,7 @@ public class ModBlocks
 
 
 
-
+    //Registers the modded blocks
     private static <T extends  Block> RegistryObject<T> registerBlock(String name, Supplier<T> block)
     {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
@@ -49,11 +49,15 @@ public class ModBlocks
     {
         return ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
+
+    //This registers the menu for my custom GUI
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(ForgeRegistries.MENU_TYPES, "upgradesandabilitites");
 
-    public static Menu createMenu(int windowId, Inventory playerInventory, FriendlyByteBuf extraData) {
-        Container container = new SimpleContainer(4);  // Initialize with a proper container
-        ContainerData data = new SimpleContainerData(3);  // Initialize with valid data
+    //can create a new instance of menu
+    public static Menu createMenu(int windowId, Inventory playerInventory, FriendlyByteBuf extraData)
+    {
+        Container container = new SimpleContainer(4);
+        ContainerData data = new SimpleContainerData(3);
         return new Menu(windowId, playerInventory, container, data);
     }
 
@@ -61,7 +65,7 @@ public class ModBlocks
             () -> IForgeMenuType.create(ModBlocks::createMenu)); // Use IForgeMenuType.create
 
 
-
+    //Another event bus, loads these assets when the game launches
     public static void register(IEventBus eventBus)
     {
         BLOCKS.register(eventBus);

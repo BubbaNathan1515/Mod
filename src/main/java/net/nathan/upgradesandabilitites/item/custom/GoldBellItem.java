@@ -22,12 +22,11 @@ public class GoldBellItem extends Item
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
     {
         ItemStack item = player.getItemInHand(hand);//checks if the item is the bell
+        player.getCooldowns().addCooldown(this, 20); //sets cooldown on item to prevent glitches from item spam
 
         //creates tag to apply/remove shimmer effect
         CompoundTag tag = item.getOrCreateTag();
         boolean active = tag.getBoolean("ActiveShimmer");
-
-        player.getCooldowns().addCooldown(this, 20); //sets cooldown on item to prevent glitches from item spam
 
         //toggles the shimmer effect
         active = !active;
@@ -37,14 +36,14 @@ public class GoldBellItem extends Item
 
     //will apply the "Shimmer" effect to item
     @Override
-    public boolean isFoil(ItemStack item)
+    public boolean isFoil(ItemStack itemStack)
     {
-        CompoundTag tag = item.getOrCreateTag();
+        CompoundTag tag = itemStack.getOrCreateTag();
         return tag.getBoolean("ActiveShimmer");
     }
     // set max stack size to 1 (unstackable)
     @Override
-    public int getMaxStackSize(ItemStack stack)
+    public int getMaxStackSize(ItemStack itemStack)
     {
         return 1;
     }
@@ -56,15 +55,14 @@ public class GoldBellItem extends Item
         return false;
     }
 
-    //Makes the player jump in mid air
-    public void jump(ItemStack item)
+    //Makes the player jump in mid-air
+    public void jump(ItemStack itemStack)
     {
-        //verifies player existence
         Player player = Minecraft.getInstance().player;
-        if (player != null && item != null) //if the player and item exists
+        if (player != null && itemStack != null) //if the player and item exists
         {
                 //grabs shimmer and cooldown NBT tags (data associated to a specific instance of an item)
-                CompoundTag tag = item.getOrCreateTag();
+                CompoundTag tag = itemStack.getOrCreateTag();
                 boolean active = tag.getBoolean("ActiveShimmer");
                 boolean cooldown = tag.getBoolean("JumpCooldown");
 
